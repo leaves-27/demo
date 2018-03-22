@@ -2,24 +2,22 @@ var path = require('path');
 var fs = require("fs");
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require("copy-webpack-plugin");
-// if(process.env.NODE_ENV=="production"){
-//   publicPath = "http://gaea.tongbanjie.com/";
-// }else{
-//   publicPath = "http://gaea.tongbanjie.com:8080/";
-// }
-
 var fileContent = fs.readFileSync('./package.json');
 var packageJSON = JSON.parse(fileContent);
 var dirPath = 'build/'+packageJSON.name;
+
 var NODE_ENV = process.env.NODE_ENV;
 
-var getHtmlWebpackPlugins = function(path,templates){
-  var arr = [];
-  for(var i=0;i < templates.length;i++){
-    arr.push(new HtmlWebpackPlugin({
-      filename : templates[i], //生成的html文件名
-      template : path+templates[i], //生成html依赖的模板
+function getProject(path){
+  var dir = fs.readdirSync(path);
+  var entry = {}
+  var htmlWebpackPlugin = [];
+
+  for(var item in dir){
+    entry[dir[item]] = path + dir[item]+"/index.js";
+    htmlWebpackPlugin.push(new HtmlWebpackPlugin({
+      filename : dir[item] + "/index.html", //生成的html文件名
+      template : path + dir[item] + "/index.html", //生成html依赖的模板
       inject : false, //自动注入资源
       minify : { 
         removeComments : true,    //移除HTML中的注释
@@ -28,12 +26,13 @@ var getHtmlWebpackPlugins = function(path,templates){
       }
     }))
   }
-  return arr;
+
+  return {
+    entry : entry,
+    htmlWebpackPlugin : htmlWebpackPlugin
+  }
 }
 
-var htmls = [
-  'index.html'
-]
 var rules = [
   {
     test: /\.vue$/,
@@ -90,10 +89,11 @@ var rules = [
   }
 ]
 
+var currentProject = getProject("./src/");
+
+
 module.exports = {
-  entry : {
-    "home" : "./src/index.js"
-  },
+  entry : currentProject.entry,
   output: {
     path: path.resolve(__dirname, dirPath),
     publicPath: "/",
@@ -118,13 +118,7 @@ module.exports = {
     hints : false
   },
   devtool: '#eval-source-map',
-  plugins: getHtmlWebpackPlugins("./src/page/",htmls).concat([
-    new webpack.optimize.CommonsChunkPlugin('vendor'),
-    new CopyWebpackPlugin([{ 
-      from: './src/common/*.json', 
-      flatten : true, 
-      to: path.resolve(__dirname, dirPath + "/common/")
-    }]),
+  plugins: currentProject.htmlWebpackPlugin.concat([
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"'+NODE_ENV+'"'
@@ -138,15 +132,6 @@ if(NODE_ENV === 'production') {
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   sourceMap: true,
-    //   compress: {
-    //     warnings: false
-    //   }
-    // }),
-    // new webpack.LoaderOptionsPlugin({
-    //   minimize: true
-    // })
   ])
 }else{
   module.exports.plugins = (module.exports.plugins || []).concat([
