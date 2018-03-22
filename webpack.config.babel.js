@@ -112,7 +112,7 @@ module.exports = {
   devServer: {
     contentBase :  path.resolve(__dirname, dirPath),
     hot : true,
-    inline :true,
+    inline : true,
     port : 8081
   },
   performance: {

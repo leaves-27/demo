@@ -76,7 +76,7 @@ function method1(){
   downloadFile('new1.png', canvas.toDataURL("image/png"),"下载1")
 }
 
-window.onload = function(){
+document.body.onload = function(){
   method1();
   method2();
 }
