@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas';
+
 function base64Img2Blob(code){
  
   var parts = code.split(';base64,');
@@ -20,7 +22,7 @@ function base64Img2Blob(code){
   return new Blob([uInt8Array], {type: contentType}); 
 }
 
-function downloadFile(fileName, content){
+function downloadFile(fileName, content ,buttonText){
   var aLink = document.createElement('a');
 
   var blob = base64Img2Blob(content); //new Blob([content]);
@@ -28,9 +30,11 @@ function downloadFile(fileName, content){
   // var evt = document.createEvent("HTMLEvents");
   // evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错
   
-  aLink.style.display = "block"
+  aLink.style.display = "inline-block"
   aLink.style.width = "100px"
-  aLink.style.border = "1px solid #666";
+  aLink.style.fontSize = "20px"
+  aLink.style.border = "1px solid #fff";
+  aLink.style.marginLeft = "10px";
   aLink.style.borderRadius = "8px";
   aLink.style.color = "#fff";
   aLink.style.height = "50px";
@@ -38,45 +42,41 @@ function downloadFile(fileName, content){
   aLink.style.textDecoration = "none";
   aLink.style.textAlign = "center";
   
-
-  aLink.style.backgroundColor = "#ff0000"
+  aLink.style.backgroundColor = "#ea4c37"
   aLink.href = URL.createObjectURL(blob);
 
   aLink.download = fileName;
-  aLink.innerHTML = "下载"
+  aLink.innerHTML = buttonText || "下载";
 
-  document.getElementById("root").appendChild(aLink)
+  document.getElementById("button-box").appendChild(aLink)
 }
 
-function ImageToCanvas(image) {  
+function getCanvas(width,height) {  
     var canvas = document.createElement("canvas");  
-    canvas.width = image.width;  
-    canvas.height = image.height;  
-    canvas.getContext("2d").drawImage(image, 0, 0);//0, 0参数画布上的坐标点，图片将会拷贝到这个地方  
+    canvas.width = width || 600;  
+    canvas.height = height || 600;  
     return canvas;  
-}  
- 
-function init(){
-  var img = document.getElementsByTagName("img")[0];
-  var canvas = ImageToCanvas(img);
-  downloadFile('ship.png', canvas.toDataURL("image/png"));
+}
+
+function method2(){
+  html2canvas(document.getElementById("origin-picture")).then(function(canvas) {
+    document.getElementById("new2").appendChild(canvas);
+    downloadFile('new2.png', canvas.toDataURL("image/png"),"下载2")
+  });
+}
+
+function method1(){
+  var image = document.getElementsByTagName("img");
+
+  var canvas = getCanvas();
+  canvas.getContext("2d").drawImage(image[0], 0, 0);
+  canvas.getContext("2d").drawImage(image[1], 0, image[0].height);
+
+  document.getElementById("new1").appendChild(canvas);
+  downloadFile('new1.png', canvas.toDataURL("image/png"),"下载1")
 }
 
 window.onload = function(){
-  init();
+  method1();
+  method2();
 }
-
-// import html2canvas from 'html2canvas';
-// // var proxy = require('html2canvas-proxy');
-// function downloadFile(aLink, fileName, content){
-//     aLink.download = fileName;
-//     aLink.href = "data:text/plain," + content;
-// }
-
-// window.onload = function(){
-//   html2canvas(document.getElementById("root")).then(function(canvas) {
-//     // document.body.appendChild(canvas);
-//     var img = canvas.toDataURL("image/png");
-//     location.href = img;
-//   });
-// }

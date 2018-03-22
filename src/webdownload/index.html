@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>铜板街</title>
+    <title>demo</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <style>
+      .right{float:right;width:700px;}
+    </style>
   </head>
   <body>
-    <div id="root"></div> 
+    <h1 style="text-align: center;">
+      webdownload
+      <div id="button-box" style="display: inline-block;"></div>
+    </h1>
+    <div style="overflow: hidden;">
+      <div id="origin-picture" style="float:left;">
+        <h2>原图1:</h2>
+        <p><img width="400" src="/static/1.jpg" /><p>
+        <h2>原图2:</h2>
+        <p><img width="400" src="/static/2.jpg" /><p>
+      </div>
+      <div class="right">
+        <h2 style="text-indent: 20px;">新生成的图1:</h2>
+        <p id="new1" style="border:1px solid #FF0000;"><p>
+        <h2 style="text-indent: 20px;">新生成的图2:</h2>
+        <p id="new2" style="border:1px solid #FF00ff;"><p>
+      </div>
+    </div>
   </body>
 </html>
