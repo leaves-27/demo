@@ -18,7 +18,6 @@ function base64Img2Blob(code){
   }
 
   return new Blob([uInt8Array], {type: contentType}); 
-
 }
 
 function downloadFile(fileName, content){
@@ -27,9 +26,7 @@ function downloadFile(fileName, content){
   var blob = base64Img2Blob(content); //new Blob([content]);
 
   // var evt = document.createEvent("HTMLEvents");
-
   // evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错
-
   
   aLink.style.display = "block"
   aLink.style.width = "100px"
@@ -45,13 +42,6 @@ function downloadFile(fileName, content){
   aLink.style.backgroundColor = "#ff0000"
   aLink.href = URL.createObjectURL(blob);
 
-  // aLink.dispatchEvent(evt);
-  // if(aLink.download){
-  //   aLink.download = fileName;
-  //   aLink.innerHTML = "下载"
-  // }else{
-  //   aLink.innerHTML = "你的浏览器不支持"
-  // }
   aLink.download = fileName;
   aLink.innerHTML = "下载"
 

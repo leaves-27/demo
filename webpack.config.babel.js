@@ -32,9 +32,7 @@ var getHtmlWebpackPlugins = function(path,templates){
 }
 
 var htmls = [
-  'home.html',
-  'customer.html',
-  'screen.html'
+  'index.html'
 ]
 var rules = [
   {
@@ -94,9 +92,7 @@ var rules = [
 
 module.exports = {
   entry : {
-    "home" : "./src/home.js",
-    "customer" : "./src/customer.js",
-    "screen" : "./src/screen.js"
+    "home" : "./src/index.js"
   },
   output: {
     path: path.resolve(__dirname, dirPath),
