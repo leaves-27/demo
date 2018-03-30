@@ -19,7 +19,7 @@ function getProject(path){
     htmlWebpackPlugin.push(new HtmlWebpackPlugin({
       filename : dir[item] + "/index.html", //生成的html文件名
       template : path + dir[item] + "/index.html", //生成html依赖的模板
-      inject : true, //自动注入资源
+      inject : false, //自动注入资源
       minify : { 
         removeComments : true,    //移除HTML中的注释
         collapseWhitespace : true,    //删除空白符与换行符
@@ -110,10 +110,11 @@ module.exports = {
     }
   },
   devServer: {
+    host:"192.168.124.123",
+    port : 8081,
     contentBase :  path.resolve(__dirname, dirPath),
     hot : true,
-    inline : true,
-    port : 8081
+    inline : true
   },
   performance: {
     hints : false
