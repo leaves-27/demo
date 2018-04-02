@@ -1,16 +1,9 @@
-// let mySwiper3 = new Swiper('#swiper-container',{
-//   initialSlide: 1,
-//   effect : 'coverflow',
-//   slidesPerView: 3,
-//   centeredSlides: true,
-// })
-
-
-let certifySwiper = new Swiper('#swiper-container', {
+var certifySwiper = new Swiper('#certify .swiper-container', {
+  initialSlide:1,
   watchSlidesProgress: true,
   slidesPerView: 'auto',
   centeredSlides: true,
-  loop: true,
+  loop: false,
   loopedSlides: 3,
   autoplay: false,
   on: {
@@ -18,6 +11,7 @@ let certifySwiper = new Swiper('#swiper-container', {
       for (i = 0; i < this.slides.length; i++) {
         var slide = this.slides.eq(i);
         var slideProgress = this.slides[i].progress;
+
         modify = 1;
         if (Math.abs(slideProgress) > 1) {
           modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
@@ -25,7 +19,8 @@ let certifySwiper = new Swiper('#swiper-container', {
         translate = slideProgress * modify * 260 + 'px';
         scale = 1 - Math.abs(slideProgress) / 5;
         zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
-        slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+        // slide.transform('translateX(' + translate + ') scale(' + scale + ')');
+        slide.transform('scale(' + scale + ')');
         slide.css('zIndex', zIndex);
         slide.css('opacity', 1);
         if (Math.abs(slideProgress) > 3) {
@@ -41,5 +36,4 @@ let certifySwiper = new Swiper('#swiper-container', {
 
     }
   }
-
 })

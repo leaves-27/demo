@@ -110,7 +110,7 @@ module.exports = {
     }
   },
   devServer: {
-    host:"192.168.124.123",
+    host:"192.168.124.141",
     port : 8081,
     contentBase :  path.resolve(__dirname, dirPath),
     hot : true,
@@ -128,6 +128,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin([{ 
       from: './src/**/*.jpg', 
+      flatten : true, 
+      to: path.resolve(__dirname, dirPath + "/static/")
+    },{ 
+      from: './src/**/*.css', 
       flatten : true, 
       to: path.resolve(__dirname, dirPath + "/static/")
     }]),
