@@ -110,8 +110,6 @@ module.exports = {
     }
   },
   devServer: {
-    host:"192.168.124.141",
-    port : 8081,
     contentBase :  path.resolve(__dirname, dirPath),
     hot : true,
     inline : true
